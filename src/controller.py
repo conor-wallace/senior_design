@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Float32
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Twist
 import tf
@@ -9,14 +9,11 @@ import math
 from tf.transformations import euler_from_quaternion
 
 
-#scan_pub = rospy.Publisher('/
-#imu_pub = rospy.Publisher('/imu', Imu, queue_size=10)
-#dis_pub = rospy.Publisher('/imu', Imu, queue_size=10)
-
 desired_angle = 0.0
 desired_distance = 0.0
 current_angle = 0.0
-current_distance = 0.0
+current_distance = 0.0 
+center = 0.0
 
 def turn_callback(turn_msg):
    global desired_angle
@@ -41,14 +38,19 @@ def dis_callback(dis_msg):
    current_distance = imu_msg.linear.x
    print "current_dist: ", current_dist
 
-
-
+# new code for subscribing to cam node ###############
+def center_callback(center_msg):
+   global center
+   center = center_msg.data
+   print "center_comp: ", center
+   
+#CAM CODE END
 
 rospy.init_node('sixwheelcontroller')
 
 turn_sub = rospy.Subscriber("/turn_amount", Float64, turn_callback)
 move_sub = rospy.Subscriber("/move_amount", Float64, move_callback)
-#imu_sub = rospy.Subscriber("/imu",         Imu,     imu_callback)
+center_sub = rospy.Subscriber("/center_image", Float32, center_callback) #CAM CODE
 rospy.Subscriber("mobile_base/sensors/imu_data", Imu, imu_callback)
 
 #pub = rospy.Publisher('/cmd_vel_sub', Twist, queue_size=1)
@@ -73,11 +75,18 @@ while not rospy.is_shutdown():
 
    angle_diff = 0.0
    #if desired_angle != 0:
-   angle_diff = Kp_angle*(desired_angle - current_angle)#1.0*getDirection(desired_angle)#valmap(abs(desired_angle), 36, 144, 0.8, 1.0)*getDirection(desired_angle)
-   dist_diff = desired_distance * 0.5 #- current_distance
+   angle_diff = Kp_angle*(desired_angle - current_angle)  #1.0*getDirection(desired_angle)#valmap(abs(desired_angle), 36, 144, 0.8, 1.0)*getDirection(desired_angle)
+   dist_diff = desired_distance * 0.5    #- current_distance
+   #object_diff = 
    print "dA: %f, cA: %f, eA: %f, dD: %f, cD: %f, eD: %f" % (desired_angle, current_angle, desired_angle - current_angle, desired_distance, current_distance, desired_distance - current_distance)
    twist_msg = Twist()
    
+   if(center == 0):                              #CAM CODE
+      twist_msg.angular.z = 0
+      #twist_msg.linear.z = object_diff
+   else:
+      twist_msg.angular.z = center
+
    if(dist_diff == 0):
       twist_msg.linear.x = 0.0
    elif(dist_diff > 0.0):
