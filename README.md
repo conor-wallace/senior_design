@@ -21,7 +21,7 @@ Steps to run kobuki steering method all in different terminals:
   ```
   roslaunch kobuki_node minimal.launch
   ```
-  6.Launch Rplidar
+  6. Launch Rplidar
   ```
   roslaunch rplidar_ros rplidar.launch
   ``` 
