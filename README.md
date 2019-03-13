@@ -21,15 +21,19 @@ Steps to run kobuki steering method all in different terminals:
   ```
   roslaunch kobuki_node minimal.launch
   ```
-  6. Run rplidar sacn 
+  6.Launch Rplidar
   ```
-  python scan.py
-  ```
+  roslaunch rplidar_ros rplidar.launch
+  ``` 
   7. Launch Laser scan splitter
   ```
   roslaunch laser_values laser.launch
   ```
-  8. Run Kobuki
+  8. Run Rplidar Scan 
+  ```
+  python scan.py
+  ```
+  9. Run Kobuki
   ```
   python controller.py
   ````
