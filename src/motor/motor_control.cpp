@@ -1,5 +1,9 @@
+#include "ros.h"
 #include "mbed.h"
-#include "motors.h"
+#include "events/mbed_events.h"
+#include "std_msgs/String.h"
+#include <sstream>
+//#include "motors.h"
 
 
 int main() {
@@ -9,7 +13,7 @@ int i,j;
 DigitalOut step(PTA1);
 DigitalOut dir(PTA2, 1); //going one dir for test
 
-//Step modes 0,1,2 
+//Step modes 0,1,2
 
 DigitalOut mode0(PTB0);
 DigitalOut mode1(PTB1);
@@ -23,7 +27,7 @@ mode2 = 1;
 while(1){
     dir=1;
     for(i=0; i<=10000; i++) {
-        step ^= 0;
+        step = 0;
         wait(0.0001);
         step = 1;
     }
@@ -35,4 +39,3 @@ while(1){
     }
 }
 }
-

@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/darrius/mbed/gcc4mbed/devel -DCMAKE_INSTALL_PREFIX=/home/darrius/mbed/gcc4mbed/install -G Unix Makefiles
