@@ -91,10 +91,10 @@ while not rospy.is_shutdown():
       twist_msg.linear.x = 0.0
    elif(dist_diff > 0.0):
       print "distance greater than 3.0"
-      twist_msg.linear.x = 0.5
+      twist_msg.linear.x = 0.1
    elif(dist_diff < 0.0):
       print "distance less than 1.0"
-      twist_msg.linear.x = -0.5
+      twist_msg.linear.x = -0.1
   
    if(angle_diff == 0):
       twist_msg.angular.z = 0.0
