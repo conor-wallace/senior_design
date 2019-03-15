@@ -59,3 +59,13 @@ Steps to run kobuki steering method all in different terminals:
   ```
   python controller.py
   ````
+Running Alexa Skill w/ ngrok:
+  1. run python script
+  ```
+  python lambda_function.py
+  ```
+  2. launch ngrok tunnel
+  ```
+  ./ngrok http 5000
+  ```
+  3. add https://.......ngrok.io to endpoints
