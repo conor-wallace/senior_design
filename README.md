@@ -1,5 +1,27 @@
 # senior_design
 
+Steps to push to GitHub:
+  1. Go to the root of the folder:
+  ```
+  cd ~/catlin_ws/src/senior_design
+  ```
+  2. Update your repository
+  ```
+  git pull
+  ```
+  3. Add your changes
+  ```
+  git add .
+  ```
+  4. Commit your changes with an appropriate commit message
+  ```
+  git commit -m "YOUR MESSAGE HERE"
+  ```
+  5. Push your changes
+  ```
+  git push
+  ```
+  
 Steps to run kobuki steering method all in different terminals:
   1. Launch Roscore
   ```
