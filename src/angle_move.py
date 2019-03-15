@@ -13,12 +13,13 @@ center = 0.0
 def center_callback(center_msg):
    global center
    center = center_msg.data
-   print "center_comp: ", center
+   print "center_comp : ", center
+   print "Center Measuered : ", center_msg.data
 
 
 rospy.init_node('sixwheelcontroller')
 
-center_sub = rospy.Subscriber("/center_image", Float32, center_callback) 
+center_sub = rospy.Subscriber("/center_image", Float32, center_callback)
 
 pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size=1)
 
@@ -26,14 +27,13 @@ rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
    twist_msg = Twist()
-   
-   if(center == 0):                             
+
+   if(center == 0):
       twist_msg.angular.z = 0
    else:
-      twist_msg.angular.z = center
+      twist_msg.angular.z = center/50
    print "Angle Compensation : " , twist_msg.angular.z
 
    pub.publish(twist_msg)
    rate.sleep()
    #rospy.spinOnce()
-
