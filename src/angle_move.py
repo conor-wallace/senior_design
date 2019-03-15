@@ -47,10 +47,10 @@ while not rospy.is_shutdown():
    else:
       if(linear_vel == 0.1):
          t = distance/0.1
-         v = center/t
+         v = math.radians(center)/t
          twist_msg.angular.z = v
       else:
-         v = center/50
+         v = math.radians(center)/50
          twist_msg.angular.z = v
 
    print "Angle Compensation : " , twist_msg.angular.z
