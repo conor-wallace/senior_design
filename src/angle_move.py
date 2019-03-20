@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float64, Float32
+from std_msgs.msg import Float64, Float32, String
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Twist
 import tf
@@ -10,6 +10,7 @@ from tf.transformations import euler_from_quaternion
 
 center = 0.0
 distance = 0.0
+stop = ''
 
 def center_callback(center_msg):
    global center
@@ -22,7 +23,7 @@ def distance_callback(distance_msg):
    distance = distance_msg.data
    print "Distance : " , distance_msg.data
 
-def stop_callback(stop_msg.data):
+def stop_callback(stop_msg):
    global stop
    stop = stop_msg.data
 
@@ -44,7 +45,7 @@ while not rospy.is_shutdown():
    else:
       linear_vel = 0.0
 
-   if(stop == "go")
+   if(stop == "go"):
      twist_msg.linear.x = linear_vel
 
      if(center == 0):                             
