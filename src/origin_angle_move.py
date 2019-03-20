@@ -8,6 +8,7 @@ import numpy
 import math
 from tf.transformations import euler_from_quaternion
 
+# NEW CODe
 center = 0.0
 distance = 0.0
 stop = ''
