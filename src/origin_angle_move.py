@@ -24,12 +24,12 @@ def center_callback(center_msg):
    global center
    center = center_msg.data
    print "center_comp : ", center
-   print "Center Measured : ", center_msg.data
+   #print "Center Measured : ", center_msg.data
 
 def distance_callback(distance_msg):
    global distance
    distance = distance_msg.data
-   print "Distance : " , distance_msg.data
+   #print "Distance : " , distance_msg.data
 
 def stop_callback(stop_msg):
    global stop
@@ -41,24 +41,24 @@ def turn_callback(turn_msg):
    global angle
    desired_angle = current_angle + turn_msg.data*3.1456/180
    angle = turn_msg.data
-   print "desired_angle: ", desired_angle
+   #print "desired_angle: ", desired_angle
 
 def move_callback(move_msg):
    global desired_distance
    desired_distance = move_msg.data
-   print "desired_distance: ", desired_distance
+   #print "desired_distance: ", desired_distance
       
 def imu_callback(imu_msg):
    global current_angle
    xyzw_array = lambda o: numpy.array([o.x, o.y, o.z, o.w])
    euler = tf.transformations.euler_from_quaternion(xyzw_array(imu_msg.orientation))
    current_angle = euler[2] #imu_msg.orientation.x
-   print "current_angle: ", current_angle
+   #print "current_angle: ", current_angle
 
 def dis_callback(dis_msg):
    global current_distance 
    current_distance = imu_msg.linear.x
-   print "current_dist: ", current_dist
+   #print "current_dist: ", current_dist
 
 rospy.init_node('sixwheelcontroller')
 

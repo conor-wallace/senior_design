@@ -1,0 +1,10 @@
+<launch>
+   <node pkg="laser_values"  name="scan" type="scan.py" output="screen">
+
+	</node>
+  <node pkg="laser_scan_splitter" type="laser_scan_splitter_node" name="splitter" output="screen">
+    <param name="sizes" value="36 36 36 36 36 36 36 36 36 36"/>
+    <param name="topics" value="scan_l1 scan_l2 scan_l3 scan_l4 scan_l5 scan_r5 scan_r4 scan_r3 scan_r2 scan_r1"/>
+    <param name="frames" value="laser laser laser laser laser laser laser laser  laser laser"/>
+  </node>
+</launch>

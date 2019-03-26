@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(point_cloud)
+project(laser_values)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -7,14 +7,7 @@ project(point_cloud)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  sensor_msgs
-  pcl_conversions
-  pcl_ros
-)
-
-find_package(PCL REQUIRED)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -73,7 +66,7 @@ find_package(PCL REQUIRED)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -106,10 +99,10 @@ find_package(PCL REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS
-  LIBRARIES point_cloud
-  CATKIN_DEPENDS pcl_ros plc_conversions roscpp sensor_msgs
-  DEPENDS system_lib
+#  INCLUDE_DIRS include
+#  LIBRARIES laser_values
+#  CATKIN_DEPENDS other_catkin_pkg
+#  DEPENDS system_lib
 )
 
 ###########
@@ -118,19 +111,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-
 include_directories(
 # include
-  ${catkin_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS}
-)
-
-link_directories(
-  ${PCL_LIBRARY_DIRS}
+# ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/point_cloud.cpp
+#   src/${PROJECT_NAME}/laser_values.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -141,8 +129,7 @@ link_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/point_cloud_node.cpp)
-add_executable(point_cloud src/point_cloud.cpp)
+# add_executable(${PROJECT_NAME}_node src/laser_values_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,7 +145,6 @@ add_executable(point_cloud src/point_cloud.cpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(point_cloud ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
 #############
 ## Install ##
@@ -200,7 +186,7 @@ target_link_libraries(point_cloud ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_point_cloud.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_laser_values.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
