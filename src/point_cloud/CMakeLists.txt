@@ -108,7 +108,7 @@ find_package(PCL REQUIRED)
 catkin_package(
   INCLUDE_DIRS
   LIBRARIES point_cloud
-  CATKIN_DEPENDS pcl_ros plc_conversions roscpp sensor_msgs
+  CATKIN_DEPENDS pcl_ros pcl_conversions roscpp sensor_msgs
   DEPENDS system_lib
 )
 
