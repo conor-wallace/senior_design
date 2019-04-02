@@ -1,5 +1,5 @@
 <launch>
-   <node pkg="laser_values"  name="scan" type="scan.py" output="screen">
+   <node pkg="laser_values"  name="scan" type="avoidObs.py" output="screen">
 
 	</node>
   <node pkg="laser_scan_splitter" type="laser_scan_splitter_node" name="splitter" output="screen">
