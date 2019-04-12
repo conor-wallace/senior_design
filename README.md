@@ -1,5 +1,11 @@
 # senior_design
 
+Steps to SSH into Tegra:
+  1.
+  ```
+  ssh username@address
+  ```
+  
 Steps to push to GitHub:
   1. Go to the root of the folder:
   ```
