@@ -1,6 +1,6 @@
 # senior_design
 
-Steps to SSH into Tegra:
+SSH into Tegra:
   1.
   ```
   ssh username@address
