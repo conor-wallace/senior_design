@@ -1,28 +1,50 @@
-import json
-from flask import Flask
-from flask_ask import Ask, statement, request, session, question
+from flask import Flask, render_template
+from flask_ask import Ask, statement
+from subprocess import Popen, PIPE
+import sys
 
 app = Flask(__name__)
 ask = Ask(app, '/')
 
-@ask.launch
-def launch():
-    speech_text = 'Welcome to the Helping Hand, you can request an object now.'
-    return statement(speech_text).reprompt(speech_text).simple_card('HelloWorld', speech_text)
+@ask.intent('FetchIntent')
+def HHfetch(object):
 
-@ask.intent('hello')
-def hello():
-    speech_text = 'Hello world'
-    return statement(speech_text).simple_card('HelloWorld', speech_text)
-
-@ask.intent('fetch')
-def fetchObject(object):
-    if object == 'cup' :
-        speech_text = 'Retrieving the object'
-        return statement(speech_text).simple_card('HelloWorld', speech_text)
+    if object == 'cup':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'bottle':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'spoon':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'bowl':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'cell phone':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'person':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'mouse':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'toothbrush':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'knife':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
+    elif object == 'fork':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
     else:
-        speech_text = 'I do not know what that object is'
-        return statement(speech_text).simple_card('HelloWorld', speech_text)
+        return statement("I don't know what that object is.")
+
+def runRosScript(requested_object):
+    process = Popen(['talker.py', 'requested_object'], stdout=PIPE, stderr=PIPE)
+    stdout, stderr = process.communicate()
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
