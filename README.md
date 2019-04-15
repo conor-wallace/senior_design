@@ -2,7 +2,7 @@
 
 SSH into Tegra:
   ```
-  ssh nvidia@tegra-ubuntu
+  ssh -Y nvidia@tegra-ubuntu
   ```
   
 Steps to push to GitHub:
