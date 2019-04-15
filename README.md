@@ -1,9 +1,8 @@
 # senior_design
 
 SSH into Tegra:
-  1.
   ```
-  ssh username@address
+  ssh nvidia@tegra-ubuntu
   ```
   
 Steps to push to GitHub:
