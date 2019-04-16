@@ -56,11 +56,7 @@ Steps to run kobuki steering method all in different terminals:
   ```
   roslaunch laser_values laser.launch
   ```
-  8. Run Rplidar Scan 
-  ```
-  python scan.py
-  ```
-  9. Run Kobuki
+  8. Run Kobuki Controller
   ```
   python controller.py
   ````
