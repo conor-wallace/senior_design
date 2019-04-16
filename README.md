@@ -52,7 +52,7 @@ Steps to run kobuki steering method all in different terminals:
   ```
   roslaunch rplidar_ros rplidar.launch
   ``` 
-  7. Launch Laser scan splitter
+  7. Run Laser Scan  
   ```
   roslaunch laser_values laser.launch
   ```
