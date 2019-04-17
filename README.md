@@ -44,19 +44,23 @@ Steps to run kobuki steering method all in different terminals:
   ```
   python cam_node.py
   ```
-  5. Connect to Kobuki 
+  5. Run Point Cloud Algorithm
+  ```
+  rosrun point_cloud point_cloud
+  ```
+  6. Connect to Kobuki 
   ```
   roslaunch kobuki_node minimal.launch
   ```
-  6. Launch Rplidar
+  7. Launch Rplidar
   ```
   roslaunch rplidar_ros rplidar.launch
   ``` 
-  7. Run Laser Scan  
+  8. Run Laser Scan  
   ```
   roslaunch laser_values laser.launch
   ```
-  8. Run Kobuki Controller
+  9. Run Kobuki Controller
   ```
   python controller.py
   ````
