@@ -24,15 +24,11 @@ def distance_callback(distance_msg):
    distance = distance_msg.data
    print "Distance : " , distance_msg.data
 
-def stop_callback(stop_msg):
-   global stop
-   stop = stop_msg.data
-
 rospy.init_node('sixwheelcontroller')
 
 center_sub = rospy.Subscriber("/center_image", Float32, center_callback)
 distance_sub = rospy.Subscriber("distance", Float32, distance_callback) 
-stop_sub = rospy.Subscriber("should_stop", String, stop_callback)
+#stop_sub = rospy.Subscriber("should_stop", String, stop_callback)
 
 pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size=1)
 
@@ -46,7 +42,7 @@ while not rospy.is_shutdown():
    else:
       linear_vel = 0.0
 
-   if(stop == "go"):
+   if(distance > 0.5):
      twist_msg.linear.x = linear_vel
 
      if(center == 0):                             

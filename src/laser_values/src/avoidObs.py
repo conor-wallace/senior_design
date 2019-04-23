@@ -37,34 +37,34 @@ def callback(scan_l1_msg, scan_l2_msg, scan_l3_msg, scan_l4_msg, scan_l5_msg, sc
                 if (min(scan_r1_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r2_msg.ranges) > FRONT_SAFE_RANGE):
                         print "Turn...45 to right"
                         turn_amount.data = -45
-                        busy_counter = 60
+                        busy_counter = 35
                 elif (min(scan_l1_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_l2_msg.ranges) > FRONT_SAFE_RANGE):
                         print "Turn...45 to left"
                         turn_amount.data = 45
-                        busy_counter = 60
-                elif (min(scan_r2_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r3_msg.ranges) > FRONT_SAFE_RANGE):
-                        print "Turn...90 to right"
-                        turn_amount.data = -90
-                        busy_counter = 120
-                elif (min(scan_l2_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_l3_msg.ranges) > FRONT_SAFE_RANGE):
-                        print "Turn...90 to left"
-                        turn_amount.data = 90
-                        busy_counter = 120
+                        busy_counter = 35
+                #elif (min(scan_r2_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r3_msg.ranges) > FRONT_SAFE_RANGE):
+                #        print "Turn...90 to right"
+                #        turn_amount.data = -90
+                #        busy_counter = 70
+                #elif (min(scan_l2_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_l3_msg.ranges) > FRONT_SAFE_RANGE):
+                #        print "Turn...90 to left"
+                #        turn_amount.data = 90
+                #        busy_counter = 70
 
-                elif (min(scan_r3_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r4_msg.ranges) > FRONT_SAFE_RANGE):
-                        print "Turn...135 to right"
-                        turn_amount.data = -135
-                        busy_counter = 180
-                elif (min(scan_l3_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_l4_msg.ranges) > FRONT_SAFE_RANGE):
-                        print "Turn...135 to left"
-                        turn_amount.data = 135
-                        busy_counter = 180
+                #elif (min(scan_r3_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r4_msg.ranges) > FRONT_SAFE_RANGE):
+                #        print "Turn...135 to right"
+                #        turn_amount.data = -135
+                #        busy_counter = 120
+                #elif (min(scan_l3_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_l4_msg.ranges) > FRONT_SAFE_RANGE):
+                #        print "Turn...135 to left"
+                #        turn_amount.data = 135
+                #        busy_counter = 120
                 
                 else:
                         print "Move backward"
                         move_amount.data = -0.1
                         turn_amount.data = 0.0
-                        busy_counter = 60
+                        busy_counter = 5
                 #if (min(scan_l5_msg.ranges) > FRONT_SAFE_RANGE) and (min(scan_r5_msg.ranges) > FRONT_SAFE_RANGE):
                 #else:
                 #        turn_amount.data = 0.0
