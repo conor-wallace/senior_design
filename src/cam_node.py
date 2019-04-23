@@ -20,6 +20,7 @@ def imageCallback(data):
     for i in range(0, len(data.bounding_boxes)):
         if data.bounding_boxes[object_index].Class == requested_object:
             print("Found it!")
+	    shouldStop = "go"
             x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
             y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
             print("X centered: " + str(x_coordinate))
