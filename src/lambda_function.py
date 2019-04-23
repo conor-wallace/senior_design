@@ -1,7 +1,9 @@
 from flask import Flask, render_template
 from flask_ask import Ask, statement
 from subprocess import Popen, PIPE
+import subprocess
 import sys
+import time
 
 app = Flask(__name__)
 ask = Ask(app, '/')
@@ -43,8 +45,8 @@ def HHfetch(object):
         return statement("I don't know what that object is.")
 
 def runRosScript(requested_object):
-    process = Popen(['talker.py', 'requested_object'], stdout=PIPE, stderr=PIPE)
-    stdout, stderr = process.communicate()
-
+    subprocess.Popen(['./test_launch %s' % str(requested_object)], shell=True, executable="/bin/bash")
+    #process = subprocess.Popen([sys.executable, 'helping_hand_launch', str(requested_object)])
+    
 if __name__ == '__main__':
     app.run(debug=True)

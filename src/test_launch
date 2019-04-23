@@ -1,0 +1,11 @@
+#!/bin/bash
+requested_object=$1
+xterm -e "roscore; bash" &
+sleep 10;
+xterm -e "roslaunch realsense2_camera rs_rgbd.launch; bash" &
+sleep 10;
+xterm -e "roslaunch darknet_ros yolo_v3.launch" &
+sleep 10;
+
+xterm -e "python cam_node.py $requested_object; bash" &
+xterm -e "rosrun point_cloud point_cloud; bash" &
