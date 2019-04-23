@@ -16,7 +16,7 @@ def imageCallback(data):
     global compensation, x_coordinate, y_coordinate
     object_index = 0
     for i in range(0, len(data.bounding_boxes)):
-        if data.bounding_boxes[object_index].Class == object:
+        if data.bounding_boxes[object_index].Class == 'cup':
             print("Found it!")
             x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
             y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
