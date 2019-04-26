@@ -17,6 +17,7 @@ desired_angle = 0.0
 desired_distance = 0.0
 current_angle = 0.0
 current_distance = 0.0
+armProcessing = ""
 
 def turn_callback(turn_msg):
    global desired_angle
@@ -41,13 +42,14 @@ def dis_callback(dis_msg):
    current_distance = imu_msg.linear.x
    print "current_dist: ", current_dist
 
-
-
+def bin_callback(bin_msg):
+   armProcessing = bin_msg.data
 
 rospy.init_node('sixwheelcontroller')
 
 turn_sub = rospy.Subscriber("/turn_amount", Float64, turn_callback)
 move_sub = rospy.Subscriber("/move_amount", Float64, move_callback)
+bin_sub = rospy.Subscriber("/chatter", String, bin_callback)
 #imu_sub = rospy.Subscriber("/imu",         Imu,     imu_callback)
 rospy.Subscriber("mobile_base/sensors/imu_data", Imu, imu_callback)
 
