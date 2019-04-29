@@ -47,6 +47,7 @@ def pub_webcam():
     global compensation, x_coordinate, y_coordinate, shouldStop
     rospy.init_node('pub_webcam', anonymous=True)
     objectPub = rospy.Publisher('object', String, queue_size=10)
+    stopPub = rospy.Publisher('stop', String, queue_size=10)
     centerXPub = rospy.Publisher('center_x', Float32, queue_size=10)
     centerYPub = rospy.Publisher('center_y', Float32, queue_size=10)
     compPub = rospy.Publisher('/center_image', Float32, queue_size=10)
@@ -55,7 +56,8 @@ def pub_webcam():
     rate = rospy.Rate(10)
     rate.sleep()
     while not rospy.is_shutdown():
-	objectPub.publish(shouldStop)
+	objectPub.publish(requested_object)
+	stopPub.publish(shouldStop)
         centerXPub.publish(x_coordinate)
         centerYPub.publish(y_coordinate)
         compPub.publish(compensation)
