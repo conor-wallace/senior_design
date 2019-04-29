@@ -13,14 +13,16 @@ shouldStop = "go"
 compensation = 0.0
 x_coordinate = 0.0
 y_coordinate = 0.0
+bb_width = 0.0
 
 def imageCallback(data):
-    global compensation, x_coordinate, y_coordinate, requested_object, shouldStop
+    global compensation, x_coordinate, y_coordinate, requested_object, shouldStop, bb_width
     object_index = 0
     for i in range(0, len(data.bounding_boxes)):
         if data.bounding_boxes[object_index].Class == requested_object:
             print("Found it!")
 	    shouldStop = "go"
+	    bb_width = data.bounding_boxes[object_index].xmax-data.bounding_boxes[object_index].xmin
             x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
             y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
             print("X centered: " + str(x_coordinate))
@@ -48,6 +50,7 @@ def pub_webcam():
     centerXPub = rospy.Publisher('center_x', Float32, queue_size=10)
     centerYPub = rospy.Publisher('center_y', Float32, queue_size=10)
     compPub = rospy.Publisher('/center_image', Float32, queue_size=10)
+    diffPub = rospy.Publisher('/bounding_box_width', Float32, queue_size=10)
     rospy.Subscriber('/darknet_ros/bounding_boxes', BoundingBoxes, imageCallback)
     rate = rospy.Rate(10)
     rate.sleep()
@@ -56,6 +59,7 @@ def pub_webcam():
         centerXPub.publish(x_coordinate)
         centerYPub.publish(y_coordinate)
         compPub.publish(compensation)
+	diffPub.publish(bb_width)
         rate.sleep()
 
 if __name__ == '__main__':
