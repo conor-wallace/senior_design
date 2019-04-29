@@ -26,7 +26,8 @@ y = 0.0
 theta = 0.0
 threshold = 0.1
 armProcessing = ""
-atTarget = ""
+atTarget = "pickup"
+atDropoff = "dropoff"
 
 def center_callback(center_msg):
    global center
@@ -81,9 +82,7 @@ def newOdom(msg):
 
 def target_callback(target_msg):
    global atTarget
-   atTarget = "stop"
-
-def drop_callbakc()
+   atTarget = "dropoff"
 
 def bin_callback(bin_msg):
    global armProcessing
@@ -100,7 +99,7 @@ odom_sub = rospy.Subscriber("/odom", Odometry, newOdom)
 bin_sub = rospy.Subscriber("/chatter", String, bin_callback)
 
 pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size=1)
-target_pub = rospy.Publisher("/goal", String, queue_size=1)
+target_pub = rospy.Publisher("/kobuki_location", String, queue_size=1)
 
 def getDirection(x):
   if x > 0:
@@ -143,7 +142,7 @@ while not rospy.is_shutdown():
          else:
             v = math.radians(center)/50
             twist_msg.angular.z = v
-   elif(distance > 0.2 and (angle == 45 or angle == -45 or angle == 90 or angle == -90)):
+   elif(distance > 0.2 and angle == 45):
       #turns 45 degrees to avoid obstacle
       i = 0
       while i < 18:
@@ -168,6 +167,31 @@ while not rospy.is_shutdown():
          i += 1
          pub.publish(twist_msg)
          rate.sleep()
+   elif(distance > 0.2 and angle == -45):
+      #turns 45 degrees to avoid obstacle
+      i = 0
+      while i < 18:
+         twist_msg.linear.x = 0
+         twist_msg.angular.z = -0.785
+         i += 1
+         pub.publish(twist_msg)
+         rate.sleep()
+     #drive to safe zone
+      i = 0
+      while i < 50:
+         twist_msg.linear.x = 0.1
+         twist_msg.angular.z = 0.0
+         i += 1
+         pub.publish(twist_msg)
+         rate.sleep()
+     #turn back
+      i = 0
+      while i < 20:
+         twist_msg.linear.x = 0
+         twist_msg.angular.z = 0.785
+         i += 1
+         pub.publish(twist_msg)
+         rate.sleep()
    else:
       twist_msg.linear.x = 0.0
       twist_msg.angular.z = 0.0
@@ -177,7 +201,7 @@ while not rospy.is_shutdown():
       target_pub.publish(atTarget)
 
    #Drive back to original position
-   if(armProcessing == "start"):
+   if(armProcessing == "object"):
       if abs(angle_to_goal - theta) > 0.1:
          twist_msg.linear.x = 0.0
          twist_msg.angular.z = 0.3
@@ -189,41 +213,9 @@ while not rospy.is_shutdown():
          twist_msg.angular.z = 0.0
 
    #Reached the bin
-   if(twist_msg.linear.x == 0.0 and twist_msg.angular.z == 0.0)
-      target_pub.publish(atTarget)
-      
+   if(twist_msg.linear.x == 0.0 and twist_msg.angular.z == 0.0):
+      target_pub.publish(atDropoff)
 
-################################
-   """
-      i = 0
-      while i < 20:
-         twist_msg.linear.x = 0.0
-         twist_msg.angular.z = 0.0
-         i += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-      i = 0
-      while i < 12:
-         twist_msg.linear.x = 0.0
-         twist_msg.angular.z = 3.14
-         i += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-      i = 0
-      while i < 1000:
-         if abs(angle_to_goal - theta) > 0.1:
-            twist_msg.linear.x = 0.0
-            twist_msg.angular.z = 0.3
-         elif (abs(inc_x) < threshold and abs(inc_y) < threshold):
-            twist_msg.linear.x = 0.0
-            twist_msg.angular.z = 0.0
-         else:
-            twist_msg.linear.x = 0.1
-            twist_msg.angular.z = 0.0
-         i += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-   """
 
    print "controlled output to turn: ", twist_msg.angular.z
 
