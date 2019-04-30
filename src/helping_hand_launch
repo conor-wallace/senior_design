@@ -13,6 +13,7 @@ sleep 2;
 xterm -e "roslaunch laser_values lazer.launch; bash" &
 sleep 2;
 
+xterm -e "rosrun rosserial_python serial_node.py /dev/ttyACM0" &
 xterm -e "python cam_node.py; bash" &
 xterm -e "rosrun point_cloud point_cloud; bash" &
 xterm -e "python controller.py; bash" &
