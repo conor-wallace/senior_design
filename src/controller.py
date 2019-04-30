@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Float64, Float32, String
+from std_msgs.msg import Int8, Float64, Float32, String
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Twist, Point
 import tf
@@ -26,8 +26,9 @@ y = 0.0
 theta = 0.0
 threshold = 0.1
 armProcessing = ""
-atTarget = "pickup"
-atDropoff = "dropoff"
+atTarget = 0
+atDropoff = 1
+wait = 2
 
 def center_callback(center_msg):
    global center
@@ -99,7 +100,7 @@ odom_sub = rospy.Subscriber("/odom", Odometry, newOdom)
 bin_sub = rospy.Subscriber("/chatter", String, bin_callback)
 
 pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size=1)
-target_pub = rospy.Publisher("/kobuki_location", String, queue_size=1)
+target_pub = rospy.Publisher("/kobuki_location", Int8, queue_size=1)
 
 def getDirection(x):
   if x > 0:
@@ -131,6 +132,7 @@ while not rospy.is_shutdown():
 
    if(distance > 0.2 and stop == "go"):
       twist_msg.linear.x = 0.1
+      target_pub.publish(wait)
 
       if(center == 0):                             
          twist_msg.angular.z = 0
@@ -144,6 +146,7 @@ while not rospy.is_shutdown():
             twist_msg.angular.z = v
    elif(distance > 0.2 and angle == 45):
       #turns 45 degrees to avoid obstacle
+      target_pub.publish(wait)
       i = 0
       while i < 18:
          twist_msg.linear.x = 0
@@ -202,6 +205,7 @@ while not rospy.is_shutdown():
 
    #Drive back to original position
    if(armProcessing == "object"):
+      target_pub.publish(wait)
       if abs(angle_to_goal - theta) > 0.1:
          twist_msg.linear.x = 0.0
          twist_msg.angular.z = 0.3
