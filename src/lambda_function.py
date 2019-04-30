@@ -41,6 +41,9 @@ def HHfetch(object):
     elif object == 'fork':
         runRosScript(object)
         return statement("Retrieving the " + object)
+    elif object == 'orange':
+        runRosScript(object)
+        return statement("Retrieving the " + object)
     else:
         return statement("I don't know what that object is.")
 
