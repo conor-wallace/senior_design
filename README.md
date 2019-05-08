@@ -40,27 +40,31 @@ Steps to run kobuki steering method all in different terminals:
   ```
   roslaunch darknet_ros yolo_v3.launch
   ```
-  4. Run Steering Algorithm
+  4. Setup Communication with Arduino
+  ```
+  rosrun rosserial_python serial_node.py _port:=/dev/ttyACM* _baud:=57600
+  ```
+  5. Run Steering Algorithm
   ```
   python cam_node.py
   ```
-  5. Run Point Cloud Algorithm
+  6. Run Point Cloud Algorithm
   ```
   rosrun point_cloud point_cloud
   ```
-  6. Connect to Kobuki 
+  7. Connect to Kobuki 
   ```
   roslaunch kobuki_node minimal.launch
   ```
-  7. Launch Rplidar
+  8. Launch Rplidar
   ```
   roslaunch rplidar_ros rplidar.launch
   ``` 
-  8. Run Laser Scan  
+  9. Run Laser Scan  
   ```
   roslaunch laser_values laser.launch
   ```
-  9. Run Kobuki Controller
+  10. Run Kobuki Controller
   ```
   python controller.py
   ````
