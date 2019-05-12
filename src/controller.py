@@ -36,6 +36,7 @@ atGoal = ""
 kobuki_position = ""
 heading_threshold = 2
 headingThresholdPassed = False
+debugControl = True
 #distance_to_goal = 0.0
 time = 0
 ready = ""
@@ -133,7 +134,7 @@ bin_sub = rospy.Subscriber("/arm", String, bin_callback)
 
 pub = rospy.Publisher('/mobile_base/commands/velocity', Twist, queue_size=10, tcp_nodelay=True)
 target_pub = rospy.Publisher("/kobuki_location", String, queue_size=10)
-armAnglePub = rospy.Publisher("/arm_angle", String, queue_size=10)
+armAnglePub = rospy.Publisher("/center", String, queue_size=10)
 
 def getDirection(x):
   if x > 0:
@@ -176,118 +177,123 @@ while not rospy.is_shutdown():
    #manual_control = True
    print "Distance : ", distance
    print "Manual Control: ", manual_control
-
-   if(manual_control == True):
-      #distance_to_goal = distance - 0.18
-      #t = distance_to_goal/0.1
-      #print "time", t_remaining
-      #time = 0
-      print "time", time
-      if  time < 15:
-         twist_msg.linear.x = 0.1
-         twist_msg.angular.z = 0.0
-         time += 1
-         print "Time Remain", t_remaining
-      else:
-         twist_msg.linear.x = 0.0
-         twist_msg.angular.z = 0.0
-         kobuki_msg.data = "pickup"
-         ready = "now"
-	 #manual_control = False
+   if(debugControl == True):
+       twist_msg.linear.x = 0.0
+       twist.angular.z = 0.0
+       kobuki_msg.data = "debug"
+       arm_msg.data = str(center)
    else:
-      if(stop == "go"):
-	twist_msg.linear.x = 0.1
+       if(manual_control == True):
+          #distance_to_goal = distance - 0.18
+          #t = distance_to_goal/0.1
+          #print "time", t_remaining
+          #time = 0
+          print "time", time
+          if  time < 15:
+             twist_msg.linear.x = 0.1
+             twist_msg.angular.z = 0.0
+             time += 1
+             print "Time Remain", t_remaining
+          else:
+             twist_msg.linear.x = 0.0
+             twist_msg.angular.z = 0.0
+             kobuki_msg.data = "pickup"
+             ready = "now"
+    	 #manual_control = False
+       else:
+          if(stop == "go"):
+    	twist_msg.linear.x = 0.1
 
-	if(center == 0):
-	   twist_msg.angular.z = 0
-	else:
-	   t = distance/0.1
-	   v = math.radians(center)/t
-	   twist_msg.angular.z = v
-      elif(angle == 45):
-	#turns 45 degrees to avoid obstacle
-	i = 0
-	while i < 18:
-	   twist_msg.linear.x = 0
-	   twist_msg.angular.z = 0.785
-	   i += 1
-	   pub.publish(twist_msg)
-	   rate.sleep()
-	   #drive to safe zone
-	i = 0
-        while i < 50:
-	   twist_msg.linear.x = 0.1
-	   twist_msg.angular.z = 0.0
-	   i += 1
-	   pub.publish(twist_msg)
-	   rate.sleep()
-	   #turn back
-	i = 0
-	while i < 20:
-	   twist_msg.linear.x = 0
-	   twist_msg.angular.z = -0.785
-	   i += 1
-	   pub.publish(twist_msg)
-	   rate.sleep()
-      elif(angle == -45):
-      #turns 45 degrees to avoid obstacle
-         i = 0
-	 while i < 18:
-	    twist_msg.linear.x = 0
-	    twist_msg.angular.z = -0.785
-            i += 1
-            pub.publish(twist_msg)
-	    rate.sleep()
-	    #drive to safe zone
-	 i = 0
-	 while i < 50:
-	    twist_msg.linear.x = 0.1
-	    twist_msg.angular.z = 0.0
-	    i += 1
-	    pub.publish(twist_msg)
-	    rate.sleep()
-	    #turn back
-	 i = 0
-	 while i < 20:
-	    twist_msg.linear.x = 0
-	    twist_msg.angular.z = 0.785
-	    i += 1
-	    pub.publish(twist_msg)
-	    rate.sleep()
-      else:
-         twist_msg.linear.x = 0.0
-         twist_msg.angular.z = 0.0
+    	if(center == 0):
+    	   twist_msg.angular.z = 0
+    	else:
+    	   t = distance/0.1
+    	   v = math.radians(center)/t
+    	   twist_msg.angular.z = v
+          elif(angle == 45):
+    	#turns 45 degrees to avoid obstacle
+    	i = 0
+    	while i < 18:
+    	   twist_msg.linear.x = 0
+    	   twist_msg.angular.z = 0.785
+    	   i += 1
+    	   pub.publish(twist_msg)
+    	   rate.sleep()
+    	   #drive to safe zone
+    	i = 0
+            while i < 50:
+    	   twist_msg.linear.x = 0.1
+    	   twist_msg.angular.z = 0.0
+    	   i += 1
+    	   pub.publish(twist_msg)
+    	   rate.sleep()
+    	   #turn back
+    	i = 0
+    	while i < 20:
+    	   twist_msg.linear.x = 0
+    	   twist_msg.angular.z = -0.785
+    	   i += 1
+    	   pub.publish(twist_msg)
+    	   rate.sleep()
+          elif(angle == -45):
+          #turns 45 degrees to avoid obstacle
+             i = 0
+    	 while i < 18:
+    	    twist_msg.linear.x = 0
+    	    twist_msg.angular.z = -0.785
+                i += 1
+                pub.publish(twist_msg)
+    	    rate.sleep()
+    	    #drive to safe zone
+    	 i = 0
+    	 while i < 50:
+    	    twist_msg.linear.x = 0.1
+    	    twist_msg.angular.z = 0.0
+    	    i += 1
+    	    pub.publish(twist_msg)
+    	    rate.sleep()
+    	    #turn back
+    	 i = 0
+    	 while i < 20:
+    	    twist_msg.linear.x = 0
+    	    twist_msg.angular.z = 0.785
+    	    i += 1
+    	    pub.publish(twist_msg)
+    	    rate.sleep()
+          else:
+             twist_msg.linear.x = 0.0
+             twist_msg.angular.z = 0.0
 
-   if(armProcessing == "finished grabbing" and armK < 18 and dropTrue == False):
-      while armI < 143:
-         twist_msg.linear.x = 0
-         twist_msg.angular.z = 0.314
-         armI += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-      while armJ < 143:
-         twist_msg.linear.x = 0.1
-         twist_msg.angular.z = 0
-         armJ += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-      while armK < 18:
-	 if(armK == 17):
-	    dropTrue = True
-         twist_msg.linear.x = 0.0
-         twist_msg.angular.z = 0
-         armK += 1
-         pub.publish(twist_msg)
-         rate.sleep()
-   if(armProcessing == "finished grabbing" and dropTrue == True):
-      print("in loop")
-      twist_msg.linear.x = 0.0
-      twist_msg.angular.z = 0.0
-      kobuki_msg.data = "dropoff"
+       if(armProcessing == "finished grabbing" and armK < 18 and dropTrue == False):
+          while armI < 143:
+             twist_msg.linear.x = 0
+             twist_msg.angular.z = 0.314
+             armI += 1
+             pub.publish(twist_msg)
+             rate.sleep()
+          while armJ < 143:
+             twist_msg.linear.x = 0.1
+             twist_msg.angular.z = 0
+             armJ += 1
+             pub.publish(twist_msg)
+             rate.sleep()
+          while armK < 18:
+    	 if(armK == 17):
+    	    dropTrue = True
+             twist_msg.linear.x = 0.0
+             twist_msg.angular.z = 0
+             armK += 1
+             pub.publish(twist_msg)
+             rate.sleep()
+       if(armProcessing == "finished grabbing" and dropTrue == True):
+          print("in loop")
+          twist_msg.linear.x = 0.0
+          twist_msg.angular.z = 0.0
+          kobuki_msg.data = "dropoff"
 
-   #print "controlled output to turn: ", twist_msg.angular.z
-   #print "Angle Compensation : " , twist_msg.angular.z
-   print "Moving Speed : " , twist_msg.linear.x
+       #print "controlled output to turn: ", twist_msg.angular.z
+       #print "Angle Compensation : " , twist_msg.angular.z
+       print "Moving Speed : " , twist_msg.linear.x
 
    target_pub.publish(kobuki_msg)
    pub.publish(twist_msg)
