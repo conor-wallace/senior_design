@@ -41,15 +41,25 @@ def HHfetch(object):
     elif object == 'fork':
         runRosScript(object)
         return statement("Retrieving the " + object)
-    elif object == 'orange':
-        runRosScript(object)
-        return statement("Retrieving the " + object)
     else:
         return statement("I don't know what that object is.")
+
+@ask.intent('HandleIntent')
+def HHHandle(handle):
+    if handle == "pick up":
+        runRosHandleScript(handle)
+    elif handle == "drop":
+        runRosHandleScript(handle)
+    else:
+        return statement("I don't know what that action is.")'''
+
+def runRosHandleScript(requested_action):
+    subprocess.Popen(['./kobuki_location.py %s' % str(requested_action)], shell=True, executable="/usr/bin/env python")
+    #process = subprocess.Popen([sys.executable, 'helping_hand_launch', str(requested_object)])
 
 def runRosScript(requested_object):
     subprocess.Popen(['./test_launch %s' % str(requested_object)], shell=True, executable="/bin/bash")
     #process = subprocess.Popen([sys.executable, 'helping_hand_launch', str(requested_object)])
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
