@@ -51,7 +51,7 @@ def HHHandle(handle):
     elif handle == "drop":
         runRosHandleScript(handle)
     else:
-        return statement("I don't know what that action is.")'''
+        return statement("I don't know what that action is.")
 
 def runRosHandleScript(requested_action):
     subprocess.Popen(['./kobuki_location.py %s' % str(requested_action)], shell=True, executable="/usr/bin/env python")
