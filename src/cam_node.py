@@ -19,54 +19,47 @@ def imageCallback(data):
     global compensation, x_coordinate, y_coordinate, requested_object, shouldStop, bb_width
     object_index = 0
     for i in range(0, len(data.bounding_boxes)):
-	if requested_object == "orange":
-           if data.bounding_boxes[object_index].Class == requested_object or "sports ball":
-               print("Found it!")
-	       shouldStop = "go"
-	       bb_width = data.bounding_boxes[object_index].xmax-data.bounding_boxes[object_index].xmin
-               x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
-               y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
-               print("X centered: " + str(x_coordinate))
-               if x_coordinate > 320:
-                   x_diff = x_coordinate - 320
-                   compensation = math.degrees(math.atan((2*x_diff*math.tan(90))/640))
-                   print("Turn " + str(compensation) + " degrees")
-               elif x_coordinate < 320:
-                   x_diff = 320 - x_coordinate
-                   compensation = abs(math.degrees(math.atan((2*x_diff*math.tan(90))/640)))
-                   print("Turn " + str(compensation) + " degrees")
-               else:
-                   print("Perfectly Centered!")
-               break
-           else:
-               compensation = 0.0
-	       shouldStop = "stop"
-               print("Object not found")
-           object_index += 1
-	else:
-	   if data.bounding_boxes[object_index].Class == requested_object:
-              print("Found it!")
-	      shouldStop = "go"
-	      bb_width = data.bounding_boxes[object_index].xmax-data.bounding_boxes[object_index].xmin
-              x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
-              y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
-              print("X centered: " + str(x_coordinate))
-              if x_coordinate > 320:
-                  x_diff = x_coordinate - 320
-                  compensation = math.degrees(math.atan((2*x_diff*math.tan(90))/640))
-                  print("Turn " + str(compensation) + " degrees")
-              elif x_coordinate < 320:
-                  x_diff = 320 - x_coordinate
-                  compensation = abs(math.degrees(math.atan((2*x_diff*math.tan(90))/640)))
-                  print("Turn " + str(compensation) + " degrees")
-              else:
-                  print("Perfectly Centered!")
-              break
-           else:
-              compensation = 0.0
-	      shouldStop = "stop"
-              print("Object not found")
-           object_index += 1
+        if data.bounding_boxes[object_index].Class == "bottle":
+            print("Found it!")
+	        shouldStop = "go"
+	        bb_width = data.bounding_boxes[object_index].xmax-data.bounding_boxes[object_index].xmin
+            x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
+            y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
+            print("X centered: " + str(x_coordinate))
+            if x_coordinate > 320:
+                x_diff = x_coordinate - 320
+                compensation = math.degrees(math.atan((2*x_diff*math.tan(90))/640))
+                print("Turn " + str(compensation) + " degrees")
+            elif x_coordinate < 320:
+                x_diff = 320 - x_coordinate
+                compensation = abs(math.degrees(math.atan((2*x_diff*math.tan(90))/640)))
+                print("Turn " + str(compensation) + " degrees")
+            else:
+                print("Perfectly Centered!")
+            break
+        elif data.bounding_boxes[object_index].Class == "vase":
+            print("Found it!")
+	        shouldStop = "go"
+	        bb_width = data.bounding_boxes[object_index].xmax-data.bounding_boxes[object_index].xmin
+            x_coordinate = (data.bounding_boxes[object_index].xmin+data.bounding_boxes[object_index].xmax)/2
+            y_coordinate = (data.bounding_boxes[object_index].ymin+data.bounding_boxes[object_index].ymax)/2
+            print("X centered: " + str(x_coordinate))
+            if x_coordinate > 320:
+                x_diff = x_coordinate - 320
+                compensation = math.degrees(math.atan((2*x_diff*math.tan(90))/640))
+                print("Turn " + str(compensation) + " degrees")
+            elif x_coordinate < 320:
+                x_diff = 320 - x_coordinate
+                compensation = abs(math.degrees(math.atan((2*x_diff*math.tan(90))/640)))
+                print("Turn " + str(compensation) + " degrees")
+            else:
+                print("Perfectly Centered!")
+            break
+        else:
+            compensation = 0.0
+	        shouldStop = "stop"
+            print("Object not found")
+        object_index += 1
 
 def pub_webcam():
     global compensation, x_coordinate, y_coordinate, shouldStop
@@ -81,12 +74,12 @@ def pub_webcam():
     rate = rospy.Rate(10)
     rate.sleep()
     while not rospy.is_shutdown():
-	objectPub.publish(requested_object)
-	stopPub.publish(shouldStop)
+	    objectPub.publish(requested_object)
+	    stopPub.publish(shouldStop)
         centerXPub.publish(x_coordinate)
         centerYPub.publish(y_coordinate)
         compPub.publish(compensation)
-	diffPub.publish(bb_width)
+	    diffPub.publish(bb_width)
         rate.sleep()
 
 if __name__ == '__main__':
