@@ -90,7 +90,7 @@ def pub_webcam():
         rate.sleep()
 
 if __name__ == '__main__':
-    try:
-        pub_webcam()
-    except rospy.ROSInterruptException:
-        pass
+  try:
+      pub_webcam()
+  except rospy.ROSInterruptException:
+      pass

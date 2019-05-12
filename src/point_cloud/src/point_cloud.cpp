@@ -36,7 +36,7 @@ void cloud_callback (const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
   pcl::fromROSMsg(*cloud_msg, depth);
   std::cout << "Finding coordinate at X: " << x_coordinate << ", Y: " << y_coordinate << std::endl;
   pcl::PointXYZ p1 = depth.at(x_coordinate, y_coordinate);
-  pcl::PointXYZ p2 = depth.at(320, 240);
+  pcl::PointXYZ p2 = depth.at(320.0, 240.0);
 
   std::cout << "Method for calculating position vector:" << std::endl;
   float position_vector[3] = {p1.x, p1.y, p1.z};
@@ -45,7 +45,7 @@ void cloud_callback (const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
   float magnitude = sqrt(pow(position_vector[0], 2) + pow(position_vector[1], 2) + pow(position_vector[2], 2));
   float magnitude2 = sqrt(pow(position_vector2[0], 2) + pow(position_vector2[1], 2) + pow(position_vector2[2], 2));
   float C_dist = magnitude*sin(angle); //sqrt(pow(magnitude, 2) + pow(magnitude2, 2) - (2*(magnitude*magnitude2*cos(angle)));
-  float Hypotenuse = sqrt(pow((magnitude2 + 0.12), 2) + pow(C_dist));
+  float Hypotenuse = sqrt(pow((magnitude2 + 0.12), 2) + pow(C_dist, 2));
   float arm_angle = acos((magnitude2 + 0.12) / C_dist);
   std::cout << "Arm angle: " << arm_angle << std::endl;
   std::cout << "Center Distance: " << magnitude << std::endl;
@@ -64,7 +64,7 @@ main (int argc, char** argv)
   ros::Subscriber subPointCloud = nh.subscribe ("/camera/depth_registered/points", 1, cloud_callback);
   ros::Subscriber subXCoordinate = nh.subscribe ("/center_x", 1, x_callback);
   ros::Subscriber subYCoordinate = nh.subscribe ("/center_y", 1, y_callback);
-  ros::Subscriber subYCoordinate = nh.subscribe ("/center_image", 1, center_callback);
+  ros::Subscriber subCenterAngle = nh.subscribe ("/center_image", 1, center_callback);
 
   // Create a ROS publisher for the output point cloud
   pub = nh.advertise<std_msgs::Float32> ("distance", 1);
