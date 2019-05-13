@@ -1,5 +1,15 @@
 #!/bin/bash
+echo "What is the current port?"
+read port
 #requested_object=$1
+xterm -e "roscore; bash" &
+delay 2
+xterm -e "roslaunch realsense2_camera rs_rgbd.launch; bash" &
+xterm -e "roslaunch darknet_ros yolo_v3.launch; bash" &
+xterm -e "rosrun rosserial_python serial_node.py _port:=/dev/ttyACM* _baud:=57600; bash" &
+delay 10
+
 xterm -e "python cam_node.py; bash" &
 xterm -e "rosrun point_cloud point_cloud; bash" &
+xterm -e "roslaunch kobuki_node minimal.launch; bash" &
 xterm -e "python controller.py; bash" &
